@@ -14,10 +14,7 @@ const app = express()
 app.use(
  cors({
    credentials: true,
-   origin: [
-     process.env.CLIENT_URL || "http://localhost:3000",
-     "http://localhost:3001"
-   ],
+   origin: true, // Allow all origins
  })
 );
 const sessionOptions = {
