@@ -8,7 +8,7 @@ export default function CourseRoutes(app, db) {
    const createCourse = async (req, res) => {
     const newCourse = await dao.createCourse(req.body);
     const currentUser = req.session["currentUser"];
-    enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
+    await enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
     res.json(newCourse);
   }
 

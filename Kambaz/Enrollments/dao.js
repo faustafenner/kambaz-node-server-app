@@ -11,11 +11,20 @@ export default function EnrollmentsDao(db) {
  }
 
 
- function enrollUserInCourse(userId, courseId) {
+ async function enrollUserInCourse(userId, courseId) {
+   const enrollmentId = `${userId}-${courseId}`;
+   
+   // Check if enrollment already exists
+   const existingEnrollment = await model.findById(enrollmentId);
+   if (existingEnrollment) {
+     return existingEnrollment; // Already enrolled, return existing enrollment
+   }
+   
+   // Create new enrollment
    return model.create({
      user: userId,
      course: courseId,
-     _id: `${userId}-${courseId}`,
+     _id: enrollmentId,
    });
  }
 
