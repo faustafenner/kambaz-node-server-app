@@ -4,7 +4,7 @@ export default function EnrollmentRoutes(app, db) {
   const dao = EnrollmentsDao(db);
   
   // Enroll in a course
-  const enrollInCourse = (req, res) => {
+  const enrollInCourse = async (req, res) => {
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.status(401).json({ message: "Please sign in to enroll" });
@@ -12,12 +12,12 @@ export default function EnrollmentRoutes(app, db) {
     }
     
     const { courseId } = req.params;
-    const enrollment = dao.enrollUserInCourse(currentUser._id, courseId);
+    const enrollment = await dao.enrollUserInCourse(currentUser._id, courseId);
     res.json(enrollment);
   };
   
   // Unenroll from a course
-  const unenrollFromCourse = (req, res) => {
+  const unenrollFromCourse = async (req, res) => {
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.status(401).json({ message: "Please sign in" });
@@ -25,7 +25,7 @@ export default function EnrollmentRoutes(app, db) {
     }
     
     const { courseId } = req.params;
-    dao.unenrollUserFromCourse(currentUser._id, courseId);
+    await dao.unenrollUserFromCourse(currentUser._id, courseId);
     res.json({ message: "Unenrolled successfully" });
   };
   
